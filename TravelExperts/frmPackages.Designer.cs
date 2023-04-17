@@ -28,33 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            checkBox1 = new CheckBox();
-            SuspendLayout();
-            // 
-            // checkBox1
-            // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(415, 67);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(101, 24);
-            checkBox1.TabIndex = 0;
-            checkBox1.Text = "checkBox1";
-            checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // frmPackages
-            // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            components = new System.ComponentModel.Container();
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(checkBox1);
-            Name = "frmPackages";
             Text = "Form1";
-            ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
-
-        private CheckBox checkBox1;
     }
 }
