@@ -1,6 +1,6 @@
 ﻿namespace TravelExperts
 {
-    partial class frmSuppliers
+    partial class frmProdSup
     {
         /// <summary>
         /// Required designer variable.
@@ -30,13 +30,13 @@
         {
             btnExit = new Button();
             btnAdd = new Button();
-            dgvSuppliers = new DataGridView();
-            ((System.ComponentModel.ISupportInitialize)dgvSuppliers).BeginInit();
+            dgvProdSup = new DataGridView();
+            ((System.ComponentModel.ISupportInitialize)dgvProdSup).BeginInit();
             SuspendLayout();
             // 
             // btnExit
             // 
-            btnExit.Location = new Point(845, 568);
+            btnExit.Location = new Point(820, 568);
             btnExit.Name = "btnExit";
             btnExit.Size = new Size(101, 46);
             btnExit.TabIndex = 5;
@@ -46,7 +46,7 @@
             // 
             // btnAdd
             // 
-            btnAdd.Location = new Point(48, 568);
+            btnAdd.Location = new Point(51, 568);
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(103, 46);
             btnAdd.TabIndex = 4;
@@ -54,30 +54,29 @@
             btnAdd.UseVisualStyleBackColor = true;
             btnAdd.Click += btnAdd_Click;
             // 
-            // dgvSuppliers
+            // dgvProdSup
             // 
-            dgvSuppliers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvSuppliers.Location = new Point(48, 41);
-            dgvSuppliers.Name = "dgvSuppliers";
-            dgvSuppliers.RowHeadersWidth = 82;
-            dgvSuppliers.RowTemplate.Height = 25;
-            dgvSuppliers.Size = new Size(898, 508);
-            dgvSuppliers.TabIndex = 3;
-            dgvSuppliers.CellClick += dgvSuppliers_CellClick;
+            dgvProdSup.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvProdSup.Location = new Point(51, 41);
+            dgvProdSup.Name = "dgvProdSup";
+            dgvProdSup.RowHeadersWidth = 82;
+            dgvProdSup.RowTemplate.Height = 25;
+            dgvProdSup.Size = new Size(870, 508);
+            dgvProdSup.TabIndex = 3;
+            dgvProdSup.CellClick += dgvProdSup_CellClick;
             // 
-            // frmSuppliers
+            // frmProdSup
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            CancelButton = btnExit;
-            ClientSize = new Size(998, 654);
+            ClientSize = new Size(974, 654);
             Controls.Add(btnExit);
             Controls.Add(btnAdd);
-            Controls.Add(dgvSuppliers);
-            Name = "frmSuppliers";
-            Text = "Suppliers";
-            Load += frmSuppliers_Load;
-            ((System.ComponentModel.ISupportInitialize)dgvSuppliers).EndInit();
+            Controls.Add(dgvProdSup);
+            Name = "frmProdSup";
+            Text = "Products Suppliers";
+            Load += frmProdSup_Load;
+            ((System.ComponentModel.ISupportInitialize)dgvProdSup).EndInit();
             ResumeLayout(false);
         }
 
@@ -85,6 +84,6 @@
 
         private Button btnExit;
         private Button btnAdd;
-        private DataGridView dgvSuppliers;
+        private DataGridView dgvProdSup;
     }
 }

@@ -10,29 +10,30 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TravelExpertsData;
+using TravelExpertsGUI;
 
-namespace TravelExpertsGUI
+namespace TravelExperts
 {
-    public partial class frmProducts : Form
+    public partial class frmProdSup : Form
     {
-        private const int MODIFY_INDEX = 2;
-        
-        private Product currentProduct;
-        public frmProducts()
+        private const int MODIFY_INDEX = 3;
+
+        private ProductsSupplier currentProdSup;
+        public frmProdSup()
         {
             InitializeComponent();
         }
 
-        private void frmProducts_Load(object sender, EventArgs e)
+        private void frmProdSup_Load(object sender, EventArgs e)
         {
-            DisplayProducts();
+            DisplayProdSups();
         }
 
-        private void DisplayProducts()
+        private void DisplayProdSups()
         {
-            dgvProducts.Columns.Clear();// reset columns
-            List<ProductDTO> products = ProductDB.GetProducts();
-            dgvProducts.DataSource = products;
+            dgvProdSup.Columns.Clear();// reset columns
+            List<ProductsSupplierDTO> prodSups = ProductsSupplierDB.GetProductsSuppliers();
+            dgvProdSup.DataSource = prodSups;
             // add modify button column
             var modifyColumn = new DataGridViewButtonColumn()
             {
@@ -40,47 +41,49 @@ namespace TravelExpertsGUI
                 Text = "Modify",
                 HeaderText = ""
             };
-            dgvProducts.Columns.Add(modifyColumn);
+            dgvProdSup.Columns.Add(modifyColumn);
 
             // do some formatting
             // format the column header
-            dgvProducts.EnableHeadersVisualStyles = false;
-            dgvProducts.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 9, FontStyle.Bold);
-            dgvProducts.ColumnHeadersDefaultCellStyle.BackColor = Color.Goldenrod;
-            dgvProducts.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgvProdSup.EnableHeadersVisualStyles = false;
+            dgvProdSup.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 9, FontStyle.Bold);
+            dgvProdSup.ColumnHeadersDefaultCellStyle.BackColor = Color.Goldenrod;
+            dgvProdSup.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
 
             // format the odd numbered rows
-            dgvProducts.AlternatingRowsDefaultCellStyle.BackColor = Color.PaleGoldenrod;
+            dgvProdSup.AlternatingRowsDefaultCellStyle.BackColor = Color.PaleGoldenrod;
 
-            dgvProducts.Columns[0].HeaderText = "Product ID";
-            dgvProducts.Columns[0].Width = 100;
-            dgvProducts.Columns[1].HeaderText = "Product Name";
-            dgvProducts.Columns[1].Width = 300;
-            dgvProducts.Columns[2].Width = 120;
-            dgvProducts.AutoResizeRows();
-            dgvProducts.AutoResizeColumns();
+            dgvProdSup.Columns[0].HeaderText = "Product Supplier";
+            dgvProdSup.Columns[0].Width = 100;
+            dgvProdSup.Columns[1].HeaderText = "Product ID";
+            dgvProdSup.Columns[1].Width = 100;
+            dgvProdSup.Columns[2].HeaderText = "Supplier ID";
+            dgvProdSup.Columns[2].Width = 100;
+            dgvProdSup.Columns[3].Width = 120;
+            dgvProdSup.AutoResizeRows();
+            dgvProdSup.AutoResizeColumns();
 
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            frmAddModifyProduct secondForm = new frmAddModifyProduct();
+            frmAddModifyProdSup secondForm = new frmAddModifyProdSup();
             secondForm.isAdd = true;
-            secondForm.currentProduct = null;
+            secondForm.currentProdSup = null;
             DialogResult result = secondForm.ShowDialog();
             if (result == DialogResult.OK) // proceed with add
             {
-                currentProduct = secondForm.currentProduct;
-                if (currentProduct != null)
+                currentProdSup = secondForm.currentProdSup;
+                if (currentProdSup != null)
                 {
                     try
                     {
-                        ProductDB.AddProduct(currentProduct);
-                        DisplayProducts(); // refresh grid
+                        ProductsSupplierDB.AddProductsSupplier(currentProdSup);
+                        DisplayProdSups(); // refresh grid
                     }
                     catch (DbUpdateException ex) // errors coming from SaveChanges
                     {
-                        string errorMessage = "Error(s) while adding product:\n";
+                        string errorMessage = "Error(s) while adding product supplier:\n";
                         var sqlException = (SqlException)ex.InnerException;
                         foreach (SqlError error in sqlException.Errors)
                         {
@@ -91,60 +94,57 @@ namespace TravelExpertsGUI
                     }
                     catch (SqlException)
                     {
-                        MessageBox.Show("Database connection lost while adding a product. Try again later");
+                        MessageBox.Show("Database connection lost while adding a product supplier. Try again later");
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error while adding a product: " +
+                        MessageBox.Show("Error while adding a product supplier: " +
                             ex.Message, ex.GetType().ToString());
                     }
                 }
             }
         }
 
-        private void dgvProducts_CellClick(object sender,
-            DataGridViewCellEventArgs e)
+        private void dgvProdSup_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             // e.ColumnIndex is the column where the click happened
             // e.RowIndex is the row where the click happened
             if (e.ColumnIndex == MODIFY_INDEX)
             {
-                int productId = Convert.ToInt16(dgvProducts.
-                    Rows[e.RowIndex].Cells[0].Value.ToString().Trim());
+                int prodSupId = Convert.ToInt16(dgvProdSup.Rows[e.RowIndex].Cells[0].Value.ToString().Trim());
                 try
                 {
-                    currentProduct = ProductDB.FindProduct(productId);
-                    if (currentProduct != null)
+                    currentProdSup = ProductsSupplierDB.FindProductsSupplier(prodSupId);
+                    if (currentProdSup != null)
                     {
-                        ModifyProduct();
+                        ModifyProdSup();
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error while finding a product: " +
+                    MessageBox.Show("Error while finding a product supplier: " +
                         ex.Message, ex.GetType().ToString());
                 }
             }
         }
 
-        // modify current product
-        private void ModifyProduct()
+        private void ModifyProdSup()
         {
-            frmAddModifyProduct secondForm = new frmAddModifyProduct();
+            frmAddModifyProdSup secondForm = new frmAddModifyProdSup();
             secondForm.isAdd = false; // it is modify
-            secondForm.currentProduct = currentProduct;
+            secondForm.currentProdSup = currentProdSup;
             DialogResult result = secondForm.ShowDialog();
             if (result == DialogResult.OK) // proceed with modify
             {
-                currentProduct = secondForm.currentProduct; // new data values
+                currentProdSup = secondForm.currentProdSup; // new data values
                 try
                 {
-                    ProductDB.UpdateProduct(currentProduct);
-                    DisplayProducts(); // refresh grid
+                    ProductsSupplierDB.UpdateProductsSupplier(currentProdSup);
+                    DisplayProdSups(); // refresh grid
                 }
                 catch (DbUpdateException ex) // errors coming from SaveChanges
                 {
-                    string errorMessage = "Error(s) while modifying product:\n";
+                    string errorMessage = "Error(s) while modifying product supplier:\n";
                     var sqlException = (SqlException)ex.InnerException;
                     foreach (SqlError error in sqlException.Errors)
                     {
@@ -155,12 +155,12 @@ namespace TravelExpertsGUI
                 }
                 catch (SqlException)
                 {
-                    MessageBox.Show("Database connection lost while modifying a product." +
+                    MessageBox.Show("Database connection lost while modifying a product supplier." +
                         " Try again later");
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error while modifying a product: " +
+                    MessageBox.Show("Error while modifying a product supplier: " +
                         ex.Message, ex.GetType().ToString());
                 }
             }
